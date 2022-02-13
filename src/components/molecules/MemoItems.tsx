@@ -22,7 +22,8 @@ const MemoItems = () => {
   return (
     <div>
       { isLoading && "loading" }
-      {items?.map(({ id, title, description, tag, created_at, checked }: CreateItemsType) => {
+      { items?.length === 0 && "メモはありません。" }
+      { items?.map(({ id, title, description, tag, created_at, checked }: CreateItemsType) => {
         return (
           <div key={title} data-uid={id}>
             <Link to={`/${id}`}><h3>{title}</h3></Link>
