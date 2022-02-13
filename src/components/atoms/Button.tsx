@@ -1,12 +1,13 @@
 import React from 'react'
 
 type ButtonType = {
-  text?:string;
+  text:string;
+  onClick: (event:React.MouseEvent<HTMLButtonElement>) => void
 }
 
-const Button = () => {
+const Button = ({ text, onClick }: ButtonType) => {
   return (
-    <button>Button</button>
+    <button onClick={onClick}>{ text }</button>
   )
 }
 
