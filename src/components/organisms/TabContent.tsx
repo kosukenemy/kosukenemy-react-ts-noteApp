@@ -2,16 +2,23 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import MemoList from '../molecules/MemoList'
 import CreateItem from '../molecules/CreateItem'
+import DetailPage from '../molecules/DetailPage'
+import { Routes, Route } from 'react-router-dom';
 
 type TabContentType = {
   tabIndex: number
 }
 
-const TabContent = ({tabIndex}: TabContentType) => {
+const TabContent = () => {
   return (
     <div>
-      {tabIndex === 0 && <MemoList />}
-      {tabIndex === 1 && <CreateItem />}
+      <>
+        <Routes>
+          <Route index element={<MemoList />} />
+          <Route path='/new' element={<CreateItem />} />
+          <Route path='/:id' element={<DetailPage />} />
+        </Routes>
+      </>
     </div>
   )
 }
