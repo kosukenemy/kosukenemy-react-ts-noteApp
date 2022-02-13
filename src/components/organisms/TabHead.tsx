@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { TabHeadConfig } from '../../appConfig'
 import TabContent from '../organisms/TabContent'
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const TabHead = () => {
   let [tabIndex, setTabIndex] = useState(0);
