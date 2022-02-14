@@ -5,10 +5,6 @@ import CreateItem from '../molecules/CreateItem'
 import DetailPage from '../molecules/DetailPage'
 import { Routes, Route } from 'react-router-dom';
 
-type TabContentType = {
-  tabIndex: number
-}
-
 const TabContent = () => {
   return (
     <div>

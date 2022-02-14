@@ -5,12 +5,12 @@ import { CreateItemsType } from '../../types'
 
 const DetailPage = () => {
   let { id } = useParams();
-  const [item, setItem] = useState<CreateItemsType>({});
+  const [item, setItem] = useState<Partial<CreateItemsType>>({});
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     setIsLoading(!isLoading);
-    db.memo.where("id").equals(id).each((item: any) => {
+    db.memo.where("id").equals(id).each((item: CreateItemsType) => {
       setItem(item);
     }).then(() => {
       setIsLoading(isLoading);
@@ -20,7 +20,10 @@ const DetailPage = () => {
   return (
     <div>
       { isLoading && "loading" }
-        <h2>詳細ページ</h2>
+        <ul>
+          <li>メモ一覧</li>
+          <li>詳細ページ</li>
+        </ul>
         <h3>{item.title}</h3>
         <p>{item.description}</p>
         <span>{item.tag}</span>
