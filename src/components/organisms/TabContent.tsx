@@ -1,5 +1,3 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
 import MemoList from '../molecules/MemoList'
 import CreateItem from '../molecules/CreateItem'
 import DetailPage from '../molecules/DetailPage'

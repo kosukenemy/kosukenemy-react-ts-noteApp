@@ -1,7 +1,15 @@
 import Dexie from "dexie";
 import { CreateItemsType } from '../types'
 
-export const db = new Dexie("memoStore") as any;
+class MyDataBase extends Dexie {
+  memo!: Dexie.Table<CreateItemsType, number>
+
+  constructor(){
+    super("memoStore")
+  }
+}
+
+export const db = new Dexie("memoStore") as MyDataBase;
 
 db.version(1)
   .stores({
@@ -26,9 +34,9 @@ export const bulkPutItem = (
         created_at: created_at,
         checked: checked
       }
-    ]).catch((err: any) => {
+    ]).catch((err: unknown) => {
       console.log(err)
-    }).then((id: string ) => {
+    }).then((id ) => {
       console.log(id, "追加されました")
     })
 }
