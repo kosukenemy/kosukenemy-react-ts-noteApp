@@ -10,5 +10,8 @@ export default defineConfig({
   server: {
     open: true,
   },
-  plugins: [react()]
+  plugins: [react()],
+  define: {
+    ENV_AUTH_TOKEN: JSON.stringify('246513f2-92d1-11ec-b909-0242ac120002')
+  }
 })

@@ -1,35 +1,36 @@
-import React, { useState ,useEffect } from 'react'
+import { useState ,useEffect } from 'react'
 import styled from 'styled-components'
-import { CreateItemsType } from '../../types'
-import { db } from '../../dexie'
-import { Link } from 'react-router-dom'
+import { ItemType } from '../../types'
+import { Link } from 'react-router-dom';
+import { fetchAPI } from '../../api'
 
 const MemoItems = () => {
-  const [items, setItems] = useState<CreateItemsType[]>();
+  const [getData, setGetData] = useState<ItemType[]>();
   const [isLoading, setIsLoading] = useState(false);
-
+  const [error, setError] = useState(false)
+  
   useEffect(() => {
-    setIsLoading(!isLoading)
-    db.memo.toArray().then((data: CreateItemsType[]) => {
-      if ( typeof data !== "undefined" ) {
-        setItems(data);
-      }
-    }).then(() => {
-      setIsLoading(isLoading)
-    });
+    setIsLoading(!isLoading);
+    (async() => {
+      setGetData( await fetchAPI() );
+    })().then(() => {
+      setIsLoading(isLoading);
+    }).catch(err => {
+      setError(err);
+    })
   }, []);
+
+
+  console.log(getData)
 
   return (
     <div>
       { isLoading && "loading" }
-      { items?.length === 0 && "メモはありません。" }
-      { items?.map(({ id, title, tag, created_at, checked }: CreateItemsType) => {
+      { getData?.length === 0 && "メモはありません。" }
+      { getData?.map(({ id, title }: ItemType) => {
         return (
-          <div key={title} data-uid={id}>
+          <div key={id} data-uid={id}>
             <Link to={`/${id}`}><h3>{title}</h3></Link>
-            <span>{tag}</span>
-            <span>{checked ? "お気に入り済み" : ""}</span>
-            <time>{created_at}</time>
           </div>
         )
       })}

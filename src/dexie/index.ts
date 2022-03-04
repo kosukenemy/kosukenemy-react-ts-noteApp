@@ -9,7 +9,7 @@ class MyDataBase extends Dexie {
   }
 }
 
-export const db = new Dexie("memoStore") as MyDataBase;
+export const db = new Dexie("memoStore") as any;
 
 db.version(1)
   .stores({
@@ -36,7 +36,7 @@ export const bulkPutItem = (
       }
     ]).catch((err: unknown) => {
       console.log(err)
-    }).then((id ) => {
+    }).then((id:string ) => {
       console.log(id, "追加されました")
     })
 }

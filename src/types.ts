@@ -1,9 +1,5 @@
-
-export type CreateItemsType = {
+export interface ItemType {
   id: string;
   title: string;
-  description: string;
-  tag: string;
-  created_at: string;
-  checked: number
+  content: string;
 }
