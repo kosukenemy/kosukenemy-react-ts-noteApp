@@ -1,63 +1,37 @@
-import React, { useState } from 'react'
+import React, { useRef } from 'react'
 import TextField from '../atoms/TextField'
 import Button from '../atoms/Button'
 import { CreateNewMemo } from '../../appConfig'
 import { ButtonTypes } from '../../appConfig'
-import { getUniqueId } from '../../globalFunc'
-import { db, bulkPutItem } from '../../dexie'
-import dayjs from 'dayjs'
-
-dayjs.locale("ja");
+import { getUniqueId } from '../../globalFunc';
+import { ItemType } from '../../types';
+import { addNewItem } from '../../api'
 
 const CreateItem = () => {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const uid = getUniqueId();
-  const date = dayjs().format("YYYY/M/D");
-
-  const handlerInput = (
-    event: React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>
-  ) => {    
-    const formType = event.currentTarget.type;
-    const inputValue = event.currentTarget.value;
-
-    if ( formType === "text" ) return setTitle(inputValue);
-    if ( formType === "textarea" ) return setDescription(inputValue);
-  }
-
-
-  const handlerClick = () => {
-    if ( !title.trim() ) return console.log('タイトルを入力してください')
-    console.log(title, description)
-
-    bulkPutItem({
-        id: uid,
-        title: title,
-        description: description,
-        tag: "",
-        created_at: date,
-        checked: 0
-    });
-  }
+  const title = useRef<HTMLInputElement>(null);
+  const content = useRef<HTMLInputElement>(null);
   
 
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    const newItem: ItemType = {
+      id: uid,
+      title: title.current?.value,
+      content: content.current?.value
+    };
+    addNewItem(newItem);
+  }
+
   return (
-    <div>
-      <Button 
-        text={ButtonTypes.create}
-        onClick={handlerClick}
-      />
-      <TextField 
-        titleName={CreateNewMemo.titleName}
-        type={"text"}
-        onBlur={(event) => handlerInput(event)}
-      />
-      <TextField 
-        titleName={CreateNewMemo.descriptionName}
-        type={"textarea"}
-        onBlur={(event) => handlerInput(event)}
-      />
-    </div>
+    <form onSubmit={(event) => handleSubmit(event)}>
+      <label htmlFor="title">title</label>
+      <input id="title" type="text" ref={title} />
+      <label htmlFor="content">content</label>
+      <input id="content" type="text" ref={content} />
+      <button>新規作成</button>
+    </form>
   )
 }
 

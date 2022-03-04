@@ -1,5 +1,5 @@
 export interface ItemType {
-  id: string;
-  title: string;
-  content: string;
+  id: string | undefined;
+  title: string | undefined;
+  content: string | undefined;
 }

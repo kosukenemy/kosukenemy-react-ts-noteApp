@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse }  from "axios";
+import axios, { AxiosRequestConfig, AxiosResponse }  from 'axios';
 
 
 const authToken = "246513f2-92d1-11ec-b909-0242ac120002";
@@ -35,4 +35,14 @@ export const fetchAPI = async () => {
   } catch (err) {
     return err;
   }
+}
+
+export const addNewItem = async (item: unknown) => {
+  return gasApi.post(apiUrl, {
+    method: "POST",
+    authToken,
+    params: item
+  }).then(res => {
+    console.log(res);
+  })
 }

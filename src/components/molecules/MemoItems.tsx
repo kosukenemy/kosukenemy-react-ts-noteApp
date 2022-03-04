@@ -12,7 +12,7 @@ const MemoItems = () => {
   useEffect(() => {
     setIsLoading(!isLoading);
     (async() => {
-      setGetData( await fetchAPI() );
+      return setGetData( await fetchAPI() );
     })().then(() => {
       setIsLoading(isLoading);
     }).catch(err => {
@@ -20,16 +20,13 @@ const MemoItems = () => {
     })
   }, []);
 
-
-  console.log(getData)
-
   return (
     <div>
       { isLoading && "loading" }
       { getData?.length === 0 && "メモはありません。" }
       { getData?.map(({ id, title }: ItemType) => {
         return (
-          <div key={id} data-uid={id}>
+          <div key={id}>
             <Link to={`/${id}`}><h3>{title}</h3></Link>
           </div>
         )
