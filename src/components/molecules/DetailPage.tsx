@@ -1,34 +1,61 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { ItemType } from '../../types';
-import { fetchAPI } from '../../api'
+import { useState, useEffect, useRef } from 'react';
+import { useParams, useLocation, useNavigate } from 'react-router-dom';
+import { ItemType, LocationType } from '../../types';
+import { RefObject } from '../../types';
+import { putItem } from '../../api';
+
 
 const DetailPage = () => {
   let { id } = useParams();
+  const navigate = useNavigate();
+  const location: LocationType = useLocation();
+  const { items } = location.state;
   const [item, setItem] = useState<ItemType>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const editTitle = useRef<HTMLInputElement>(null);
+  const editContent = useRef<HTMLInputElement>(null);
+
+  const handleEdit = () => setIsEdit(!isEdit);
+
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+     event.preventDefault();
+
+    const editItem:ItemType = {
+      id: item?.id,
+      title: editTitle?.current?.value,
+      content: editContent?.current?.value,
+    };
+    await putItem(editItem);
+    navigate("/", { replace: true });
+  }
 
   useEffect(() => {
-    setIsLoading(!isLoading);
     (async() => {
-      const fetchData = await fetchAPI();
-      const itemByMatchId = fetchData.find((data:ItemType) => data.id === id );
-      setItem(itemByMatchId);
-    })().then(() => {
-      setIsLoading(isLoading)
-    });
+      setItem(
+        items.find((data:ItemType) => data.id === id )
+      );
+    })();
   },[]);
-
-  console.log(item)
 
   return (
     <div>
-      { isLoading ? "loading": 
-        <ul>
-          <li>{item?.title}</li>
-          <li>{item?.content}</li>
-        </ul>
+      { isEdit ?
+        <form onSubmit={(event) => handleSubmit(event)}>
+          <input type="text" defaultValue={item?.title} ref={editTitle}/>
+          <input type="text" defaultValue={item?.content} ref={editContent}/>
+          <button>更新</button>
+        </form>
+        :
+        <div>
+          <ul>
+            <li>{item?.title}</li>
+            <li>{item?.content}</li>
+          </ul>
+          <button onClick={handleEdit}>編集</button>
+        </div>
       }
+
     </div>
     
   )

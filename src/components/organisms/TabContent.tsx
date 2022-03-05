@@ -1,5 +1,5 @@
 import MemoList from '../molecules/MemoList'
-import CreateItem from '../molecules/CreateItem'
+import Form from '../molecules/Form';
 import DetailPage from '../molecules/DetailPage'
 import { Routes, Route } from 'react-router-dom';
 
@@ -9,7 +9,7 @@ const TabContent = () => {
       <>
         <Routes>
           <Route index element={<MemoList />} />
-          <Route path='/new' element={<CreateItem />} />
+          <Route path='/new' element={<Form />} />
           <Route path='/:id' element={<DetailPage />} />
         </Routes>
       </>

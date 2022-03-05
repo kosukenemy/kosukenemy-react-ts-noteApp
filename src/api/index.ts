@@ -46,3 +46,13 @@ export const addNewItem = async (item: unknown) => {
     console.log(res);
   })
 }
+
+export const putItem = async (item: unknown) => {
+  return gasApi.post(apiUrl, {
+    method: "PUT",
+    authToken,
+    params: item
+  }).then(res => {
+    console.log(res, "put");
+  })
+}

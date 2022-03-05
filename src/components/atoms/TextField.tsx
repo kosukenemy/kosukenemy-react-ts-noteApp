@@ -1,18 +1,24 @@
-import React, { useState } from 'react'
+import { RefObject } from '../../types'
 
 type TextFieldType = {
-  type: "text" | "textarea" 
-  titleName: string;
-  onBlur?: (event:React.FormEvent<HTMLInputElement> | React.FormEvent<HTMLTextAreaElement>) => void 
+  type: "text" | "textarea";
+  name: string;
+  title?: RefObject<HTMLInputElement>;
+  displayName: string;
+  defaultValue?: string | undefined;
 }
 
-const TextField = ({ type, titleName, onBlur }: TextFieldType) => {
+const TextField = (
+  { type, 
+    name, 
+    title, 
+    displayName 
+  }: TextFieldType) => {
   return (
-    <label>
-      { titleName }
-      { type === "text" && <input onBlur={onBlur} type="text" /> }
-      { type === "textarea" && <textarea onBlur={onBlur}></textarea> }
-    </label>
+    <fieldset>
+      <label htmlFor={name}>{displayName}</label>
+      <input id={name} type={type} ref={title} required/>
+    </fieldset>
   )
 }
 

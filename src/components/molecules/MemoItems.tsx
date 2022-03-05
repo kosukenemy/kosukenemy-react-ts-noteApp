@@ -7,7 +7,8 @@ import { fetchAPI } from '../../api'
 const MemoItems = () => {
   const [getData, setGetData] = useState<ItemType[]>();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
+
   
   useEffect(() => {
     setIsLoading(!isLoading);
@@ -27,7 +28,7 @@ const MemoItems = () => {
       { getData?.map(({ id, title }: ItemType) => {
         return (
           <div key={id}>
-            <Link to={`/${id}`}><h3>{title}</h3></Link>
+            <Link to={`/${id}`} state={{ items: getData }}><h3>{title}</h3></Link>
           </div>
         )
       })}
