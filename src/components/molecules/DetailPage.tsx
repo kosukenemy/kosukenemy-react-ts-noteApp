@@ -1,8 +1,8 @@
-import { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import { ItemType, LocationType } from '../../types';
 import { RefObject } from '../../types';
-import { putItem } from '../../api';
+import { putItem, deleteItem } from '../../api';
 
 
 const DetailPage = () => {
@@ -30,6 +30,12 @@ const DetailPage = () => {
     navigate("/", { replace: true });
   }
 
+  const handleDelete = async (id: any) => {
+    await deleteItem(id);
+    navigate("/", { replace: true });
+    alert('削除しました');
+  } 
+
   useEffect(() => {
     (async() => {
       setItem(
@@ -53,6 +59,7 @@ const DetailPage = () => {
             <li>{item?.content}</li>
           </ul>
           <button onClick={handleEdit}>編集</button>
+          <button onClick={() => handleDelete(item?.id)}>削除</button>
         </div>
       }
 

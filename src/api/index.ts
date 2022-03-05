@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse }  from 'axios';
+import { ItemType } from '../types'
 
 
 const authToken = "246513f2-92d1-11ec-b909-0242ac120002";
@@ -19,13 +20,10 @@ gasApi.interceptors.response.use(res => {
   return Promise.reject(err)
 });
 
-
 const getOptions: AxiosRequestConfig = {
   url:`${apiUrl}`,
   method: "GET",
 };
-  // crossDomain: true,
-  // authToken
 
 export const fetchAPI = async () => {
   try {
@@ -54,5 +52,15 @@ export const putItem = async (item: unknown) => {
     params: item
   }).then(res => {
     console.log(res, "put");
+  })
+}
+
+export const deleteItem = async (id: any) => {
+  return gasApi.post(apiUrl, {
+    method: "DELETE",
+    authToken,
+    params: id
+  }).then(res => {
+    console.log(res, "delete");
   })
 }
