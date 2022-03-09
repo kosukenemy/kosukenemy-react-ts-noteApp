@@ -20,7 +20,10 @@ const DetailPage = () => {
   const editTitle = useRef<HTMLInputElement>(null);
   const editContent = useRef<HTMLInputElement>(null);
 
-  const handleEdit = () => setIsEdit(!isEdit);
+  const handleEdit = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    return setIsEdit(!isEdit)
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
      event.preventDefault();
@@ -86,7 +89,7 @@ const DetailPage = () => {
             text={"戻る"}
             background={"#E2E2E2"}
             color={"#C96A8B"}
-            onClick={(event) => handleCurrent(event)}
+            onClick={(event) => handleEdit(event)}
             /
           >
         </form>
@@ -102,7 +105,7 @@ const DetailPage = () => {
             text={"編集"}
             background={"#5c9ca5"}
             color={"#fff"}
-            onClick={handleEdit}
+            onClick={(event) => handleEdit(event)}
             /
           >
           <Button 
@@ -110,6 +113,13 @@ const DetailPage = () => {
             background={"#C96A8B"}
             color={"#E2E2E2"}
             onClick={() => handleDelete(item?.id)}
+            /
+          >
+          <Button 
+            text={"戻る"}
+            background={"#E2E2E2"}
+            color={"#C96A8B"}
+            onClick={(event) => handleCurrent(event)}
             /
           >
         </div>
