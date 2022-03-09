@@ -44,6 +44,7 @@ const DetailPage = () => {
     const res = await deleteItem(id);
     if (res.status !== 200) return setError(!error);
     alert('削除しました');
+    return navigate("/", { replace: true });
   } 
 
   const handleCurrent = (event: React.MouseEvent<HTMLButtonElement>) => {
