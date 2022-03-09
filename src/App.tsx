@@ -1,16 +1,21 @@
+import styled from 'styled-components';
 import Header from './components/organisms/Header'
 import TabHead from './components/organisms/TabHead'
 
 function App() {
-
   return (
     <div className="App">
-      <div>
+      <StyledContainerLayout>
         <Header />
         <TabHead />
-      </div>
+      </StyledContainerLayout>
     </div>
   )
 }
 
 export default App
+
+const StyledContainerLayout = styled.div`
+  width: 860px;
+  margin: 0 auto;
+`;

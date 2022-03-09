@@ -3,7 +3,7 @@ import { ItemType } from '../types'
 
 
 const authToken = "246513f2-92d1-11ec-b909-0242ac120002";
-const apiUrl = "https://script.google.com/macros/s/AKfycbyS5ZQO03Pqctl8XJTnjER3xqwsQ0fnooRExJ9Jqsd-ufvgue9C8CwTOLgk39O56sGP6w/exec";
+const apiUrl = "https://script.google.com/macros/s/AKfycbzariRxpsboPYGlVzlbfAnhzV2zIz3Pd7aqeXL5p0g4TnNJ0wAB5SJq8-VCzR76ZJPUow/exec";
 
 const gasApi = axios.create({
   headers: {
@@ -30,22 +30,24 @@ export const fetchAPI = async () => {
     const response: AxiosResponse = await axios(getOptions);
     return response.data
 
-  } catch (err) {
+  } catch (err) { 
     return err;
   }
 }
 
-export const addNewItem = async (item: unknown) => {
+export const addNewItem = async (item: ItemType) => {
   return gasApi.post(apiUrl, {
     method: "POST",
     authToken,
     params: item
-  }).then(res => {
-    console.log(res);
+  }).then(response => {
+    return response
+  }).catch(error => {
+    return error;
   })
 }
 
-export const putItem = async (item: unknown) => {
+export const putItem = async (item: ItemType) => {
   return gasApi.post(apiUrl, {
     method: "PUT",
     authToken,
@@ -55,7 +57,7 @@ export const putItem = async (item: unknown) => {
   })
 }
 
-export const deleteItem = async (id: any) => {
+export const deleteItem = async (id: ItemType) => {
   return gasApi.post(apiUrl, {
     method: "DELETE",
     authToken,

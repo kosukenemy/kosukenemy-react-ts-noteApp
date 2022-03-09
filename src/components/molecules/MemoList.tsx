@@ -1,12 +1,16 @@
-import React from 'react'
+import styled from 'styled-components';
 import MemoItems from '../molecules/MemoItems'
 
 const MemoList = () => {
   return (
-    <div>
+    <StyledWrapper>
       <MemoItems />
-    </div>
+    </StyledWrapper>
   )
 }
 
 export default MemoList
+
+const StyledWrapper = styled.div`
+  width: 860px;
+`;

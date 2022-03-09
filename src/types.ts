@@ -11,5 +11,5 @@ export interface LocationType {
   key: string;
 }
 export interface RefObject<T> {
-    readonly current: T | null;
+  readonly current: T | any;
 }

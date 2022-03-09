@@ -1,8 +1,7 @@
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import TextField from '../atoms/TextField'
 import Button from '../atoms/Button'
-import { CreateNewMemo } from '../../appConfig'
-import { ButtonTypes } from '../../appConfig'
 import { getUniqueId } from '../../globalFunc';
 import { ItemType } from '../../types';
 import { addNewItem } from '../../api';
@@ -11,10 +10,12 @@ const Form = () => {
   const uid = getUniqueId();
   const title = useRef<HTMLInputElement>(null);
   const content = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
+  const [submit, setSubmit] = useState(false);
+  const navigate = useNavigate();
   
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newItem: ItemType = {
@@ -22,12 +23,18 @@ const Form = () => {
       title: title.current?.value,
       content: content.current?.value
     };
-    addNewItem(newItem);
+    
+    const res = await addNewItem(newItem);
+    if ( res.status !== 200 ) return setError(!error);
+    setSubmit(!submit);
+    return res;
+    // navigate("/", { replace: true });
   }
 
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
-      { error }
+      { error && <div>error!: 投稿できませんでした</div> }
+      { submit && <div>success!: 投稿しました</div> }
       <TextField 
         type={"text"} 
         name={"title"} 
@@ -40,7 +47,12 @@ const Form = () => {
         title={content} 
         displayName={"本文"}
       />
-      <Button text={"新規作成"} />
+      <Button 
+        text={"新規作成"}
+        background={"#5c9ca5"}
+        color={"#fff"}
+        /
+      >
     </form>
   )
 }
