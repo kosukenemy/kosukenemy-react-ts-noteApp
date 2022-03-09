@@ -4,6 +4,7 @@ import { ItemType } from '../../types'
 import { Link } from 'react-router-dom';
 import { fetchAPI } from '../../api';
 import Button from '../atoms/Button';
+import Loader from '../atoms/Loader';
 
 const MemoItems = () => {
   const [getData, setGetData] = useState<ItemType[]>();
@@ -24,7 +25,7 @@ const MemoItems = () => {
 
   return (
     <StyleListWrapper>
-      { isLoading && "loading" }
+      { isLoading && <Loader /> }
       { getData?.length === 0 && "メモはありません。" }
       { getData?.map(({ id, title }: ItemType, index) => {
         return (
