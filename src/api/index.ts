@@ -52,8 +52,10 @@ export const putItem = async (item: ItemType) => {
     method: "PUT",
     authToken,
     params: item
-  }).then(res => {
-    console.log(res, "put");
+  }).then(response => {
+    return response;
+  }).catch(error => {
+    return error;
   })
 }
 
@@ -62,7 +64,9 @@ export const deleteItem = async (id: ItemType) => {
     method: "DELETE",
     authToken,
     params: id
-  }).then(res => {
-    console.log(res, "delete");
+  }).then(response => {
+    return response;
+  }).catch(error => {
+    return error;
   })
 }

@@ -15,7 +15,7 @@ const Form = () => {
   const navigate = useNavigate();
   
 
-  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newItem: ItemType = {

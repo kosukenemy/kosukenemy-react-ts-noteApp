@@ -14,14 +14,15 @@ const DetailPage = () => {
   const { items } = location.state;
   const [item, setItem] = useState<ItemType>();
   const [isEdit, setIsEdit] = useState(false);
+  const [error, setError] = useState(false);
+  const [submit, setSubmit] = useState(false);
 
   const editTitle = useRef<HTMLInputElement>(null);
   const editContent = useRef<HTMLInputElement>(null);
 
   const handleEdit = () => setIsEdit(!isEdit);
-  console.log(item?.id)
 
-  const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
      event.preventDefault();
 
     const editItem:ItemType = {
@@ -29,14 +30,19 @@ const DetailPage = () => {
       title: editTitle?.current?.value,
       content: editContent?.current?.value,
     };
-    await putItem(editItem);
-    navigate("/", { replace: true });
+    
+    const res = await putItem(editItem);
+    if (res.status !== 200) return setError(!error);
+    setSubmit(!submit);
+    return res;
   }
 
   const handleDelete = async (id: any) => {
-    await deleteItem(id);
+    const res = await deleteItem(id);
+    if (res.status !== 200) return setError(!error);
     navigate("/", { replace: true });
     alert('削除しました');
+    return res;
   } 
 
   useEffect(() => {
@@ -49,6 +55,8 @@ const DetailPage = () => {
 
   return (
     <div>
+      { error && <div>error!: 更新できませんでした</div> }
+      { submit && <div>success!: 投稿を更新しました</div> }
       { isEdit ?
         <form onSubmit={(event) => handleSubmit(event)}>
           <TextField 
