@@ -40,10 +40,13 @@ const DetailPage = () => {
   const handleDelete = async (id: any) => {
     const res = await deleteItem(id);
     if (res.status !== 200) return setError(!error);
-    navigate("/", { replace: true });
     alert('削除しました');
-    return res;
   } 
+
+  const handleCurrent = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    return navigate("/", { replace: true })
+  };
 
   useEffect(() => {
     (async() => {
@@ -83,6 +86,7 @@ const DetailPage = () => {
             text={"戻る"}
             background={"#E2E2E2"}
             color={"#C96A8B"}
+            onClick={(event) => handleCurrent(event)}
             /
           >
         </form>

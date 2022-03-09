@@ -1,5 +1,4 @@
 import React, { useRef, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import TextField from '../atoms/TextField'
 import Button from '../atoms/Button'
 import { getUniqueId } from '../../globalFunc';
@@ -12,7 +11,6 @@ const Form = () => {
   const content = useRef<HTMLInputElement>(null);
   const [error, setError] = useState(false);
   const [submit, setSubmit] = useState(false);
-  const navigate = useNavigate();
   
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,7 +26,6 @@ const Form = () => {
     if ( res.status !== 200 ) return setError(!error);
     setSubmit(!submit);
     return res;
-    // navigate("/", { replace: true });
   }
 
   return (
