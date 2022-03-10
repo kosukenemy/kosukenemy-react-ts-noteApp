@@ -15,7 +15,7 @@ const DetailPage = () => {
   const [item, setItem] = useState<ItemType>();
   const [isEdit, setIsEdit] = useState(false);
   const [error, setError] = useState(false);
-  const [submit, setSubmit] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const editTitle = useRef<HTMLInputElement>(null);
   const editContent = useRef<HTMLInputElement>(null);
@@ -36,7 +36,7 @@ const DetailPage = () => {
     
     const res = await putItem(editItem);
     if (res.status !== 200) return setError(!error);
-    setSubmit(!submit);
+    setSuccess(!success);
     return res;
   }
 
@@ -63,7 +63,7 @@ const DetailPage = () => {
   return (
     <div>
       { error && <div>error!: 更新できませんでした</div> }
-      { submit && <div>success!: 投稿を更新しました</div> }
+      { success && <div>success!: 投稿を更新しました</div> }
       { isEdit ?
         <form onSubmit={(event) => handleSubmit(event)}>
           <TextField 

@@ -10,7 +10,7 @@ const Form = () => {
   const title = useRef<HTMLInputElement>(null);
   const content = useRef<HTMLInputElement>(null);
   const [error, setError] = useState(false);
-  const [submit, setSubmit] = useState(false);
+  const [success, setSuccess] = useState(false);
   
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -24,14 +24,14 @@ const Form = () => {
     
     const res = await addNewItem(newItem);
     if ( res.status !== 200 ) return setError(!error);
-    setSubmit(!submit);
+    setSuccess(!success);
     return res;
   }
 
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
       { error && <div>error!: 投稿できませんでした</div> }
-      { submit && <div>success!: 投稿しました</div> }
+      { success && <div>success!: 投稿しました</div> }
       <TextField 
         type={"text"} 
         name={"title"} 
