@@ -1,9 +1,15 @@
-
-export type CreateItemsType = {
-  id?: string;
-  title?: string;
-  description?: string;
-  tag?: string;
-  created_at?: string;
-  checked?: number
+export interface ItemType {
+  id: string | undefined;
+  title: string | undefined;
+  content: string | undefined;
+}
+export interface LocationType {
+  pathname: string;
+  search: string;
+  hash: string;
+  state: any;
+  key: string;
+}
+export interface RefObject<T> {
+  readonly current: T | any;
 }
