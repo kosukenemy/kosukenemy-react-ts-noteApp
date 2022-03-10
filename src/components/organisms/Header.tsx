@@ -5,7 +5,8 @@ const Header = () => {
   return (
     <StyledHeader>
       <StyledLogo>
-        Memo
+        <div>🗒</div>
+        <div>memo</div>
       </StyledLogo>
     </StyledHeader>
   )
@@ -20,9 +21,10 @@ const StyledHeader = styled.header`
 `;
 
 const StyledLogo = styled.h1`
-  width: 100px;
   margin: 0;
-  color: #5C9CA5;
+  color: #707070;
+  display: flex;
+  font-size: 30px;
 
   img {
     width: 100%;

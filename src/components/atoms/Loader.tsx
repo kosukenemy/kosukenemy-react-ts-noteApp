@@ -1,11 +1,22 @@
+import styled from 'styled-components';
 import LoaderImg from '../../../public/assets/loader.gif'
 
 const Loader = () => {
   return (
-    <div>
+    <StyledLoader>
       <img src={LoaderImg} alt="loader" />
-    </div>
+    </StyledLoader>
   )
 }
 
 export default Loader
+
+const StyledLoader = styled.div`
+  display: block;
+  margin: 0 auto;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+`;
