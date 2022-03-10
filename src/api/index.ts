@@ -2,7 +2,8 @@ import axios, { AxiosRequestConfig, AxiosResponse }  from 'axios';
 import { ItemType } from '../types'
 
 const authToken = import.meta.env.VITE_AUTH_TOKEN;
-const apiUrl = import.meta.env.VITE_API_URL;
+const apiUrl = "https://script.google.com/macros/s/AKfycbzariRxpsboPYGlVzlbfAnhzV2zIz3Pd7aqeXL5p0g4TnNJ0wAB5SJq8-VCzR76ZJPUow/exec";
+
 
 const gasApi = axios.create({
   headers: {
