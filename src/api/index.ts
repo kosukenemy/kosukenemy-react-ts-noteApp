@@ -11,12 +11,12 @@ const gasApi = axios.create({
   }
 });
 
-gasApi.interceptors.response.use(res => {
+gasApi.interceptors.response.use((res) => {
   if (res.data.error) {
     return Promise.reject(res.data.error)
   }
   return Promise.resolve(res)
-}, err => {
+}, (err) => {
   return Promise.reject(err)
 });
 
@@ -28,7 +28,7 @@ const getOptions: AxiosRequestConfig = {
 export const fetchAPI = async () => {
   try {
     const response: AxiosResponse = await axios(getOptions);
-    return response.data
+    return response.data;
 
   } catch (err) { 
     return err;
@@ -41,7 +41,7 @@ export const addNewItem = async (item: ItemType) => {
     authToken,
     params: item
   }).then(response => {
-    return response
+    return response;
   }).catch(error => {
     return error;
   })
