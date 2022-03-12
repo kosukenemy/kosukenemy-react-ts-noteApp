@@ -14,15 +14,12 @@ export const useAsyncData = (method: MethodType, item?: ItemType) => {
     case 'GET':
       useEffect(() => {
         (async () => {
-          console.log('GET');
           setIsLoading(!isLoading);
           setData( await fetchAPI() );
         })()
         .then(() => {
           setIsLoading(isLoading);
           setIsSuccess(!isSuccess);
-
-          return false;
         })
         .catch((error) => {
           setIsError(error)
@@ -34,14 +31,13 @@ export const useAsyncData = (method: MethodType, item?: ItemType) => {
       useEffect(() => {
         (async () => {
           if ( typeof item === "undefined" ) return false;
-          console.log('POST', item);
 
           const res = await addNewItem(item);
 
           if ( res.status === 200 ) {
             setIsSuccess(!isSuccess)
-            console.log('成功!', !isSuccess)
-          }
+
+          } else setIsError(!isError);
 
           return res;
         })();
