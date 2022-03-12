@@ -4,6 +4,7 @@ import Button from '../atoms/Button'
 import { getUniqueId } from '../../globalFunc';
 import { ItemType } from '../../types';
 import { addNewItem } from '../../api';
+import { useAsyncData } from '../../hooks/useAsyncData';
 
 const Form = () => {
   const uid = getUniqueId();
@@ -11,9 +12,8 @@ const Form = () => {
   const content = useRef<HTMLInputElement>(null);
   const [error, setError] = useState(false);
   const [success, setSuccess] = useState(false);
-  
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async(event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const newItem: ItemType = {
@@ -21,12 +21,13 @@ const Form = () => {
       title: title.current?.value,
       content: content.current?.value
     };
-    
+
     const res = await addNewItem(newItem);
     if ( res.status !== 200 ) return setError(!error);
     setSuccess(!success);
+
     return res;
-  }
+  };
 
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
