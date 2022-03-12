@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ItemType } from '../types';
-import { fetchAPI, addNewItem } from '../api';
+import { fetchAPI, addNewItem, putItem, deleteItem } from '../api';
 
 type MethodType = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-export const useAsyncData = (method: MethodType, item?: ItemType) => {
+export const useAsyncData = (method: MethodType, item?: ItemType, id?: any) => {
+  const navigate = useNavigate();
   const [data, setData] = useState<ItemType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -35,8 +37,7 @@ export const useAsyncData = (method: MethodType, item?: ItemType) => {
           const res = await addNewItem(item);
 
           if ( res.status === 200 ) {
-            setIsSuccess(!isSuccess)
-
+            setIsSuccess(!isSuccess);
           } else setIsError(!isError);
 
           return res;
@@ -45,11 +46,36 @@ export const useAsyncData = (method: MethodType, item?: ItemType) => {
     break;
 
     case 'PUT':
-      console.log('PUT')
+      useEffect(() => {
+        (async () => {
+          if ( typeof item === "undefined" ) return false;
+          console.log('PUT')
+
+          const res = await putItem(item);
+
+          if ( res.status === 200 ) {
+            setIsSuccess(!isSuccess);
+          } else setIsError(!isError);
+
+          return res;
+        })();
+      },[item])
     break;
 
     case 'DELETE':
-      console.log('DELETE')
+      useEffect(() => {
+        (async () => {
+          if ( id === undefined ) return false;
+          const res = await deleteItem(id);
+
+          if ( res.status === 200 ) {
+            console.log("成功!")
+            setIsSuccess(!isSuccess);
+          } else setIsError(!isError);
+
+          return navigate("/", { replace: true });
+        })();
+      },[id])
     break;
   }
 

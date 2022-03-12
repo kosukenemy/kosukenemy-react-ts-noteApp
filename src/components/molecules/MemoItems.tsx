@@ -2,7 +2,6 @@ import { useState ,useEffect } from 'react'
 import styled from 'styled-components'
 import { ItemType } from '../../types'
 import { Link } from 'react-router-dom';
-import { fetchAPI } from '../../api';
 import Button from '../atoms/Button';
 import Loader from '../atoms/Loader';
 import { useAsyncData } from '../../hooks/useAsyncData';
