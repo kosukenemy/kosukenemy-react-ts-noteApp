@@ -10,8 +10,9 @@ const Form = () => {
   const uid = getUniqueId();
   const title = useRef<HTMLInputElement>(null);
   const content = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+  // hooks
+  const [item, setItem] = useState<ItemType>();
+  const { data, isSuccess, isError } = useAsyncData("POST", item);
 
   const handleSubmit = async(event:React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,17 +23,14 @@ const Form = () => {
       content: content.current?.value
     };
 
-    const res = await addNewItem(newItem);
-    if ( res.status !== 200 ) return setError(!error);
-    setSuccess(!success);
-
-    return res;
+    setItem(newItem);
+    return data;
   };
 
   return (
     <form onSubmit={(event) => handleSubmit(event)}>
-      { error && <div>error!: 投稿できませんでした</div> }
-      { success && <div>success!: 投稿しました</div> }
+      { isError && <div>error!: 投稿できませんでした</div> }
+      { isSuccess && <div>success!: 投稿しました</div> }
       <TextField 
         type={"text"} 
         name={"title"} 

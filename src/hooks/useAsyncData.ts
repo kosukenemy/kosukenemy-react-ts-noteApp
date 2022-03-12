@@ -21,17 +21,31 @@ export const useAsyncData = (method: MethodType, item?: ItemType) => {
         .then(() => {
           setIsLoading(isLoading);
           setIsSuccess(!isSuccess);
+
+          return false;
         })
         .catch((error) => {
-          return setIsError(error)
+          setIsError(error)
         });
       },[]);
     break;
 
     case 'POST':
-      (async () => {
-        console.log('POST');
-      })();
+      useEffect(() => {
+        (async () => {
+          if ( typeof item === "undefined" ) return false;
+          console.log('POST', item);
+
+          const res = await addNewItem(item);
+
+          if ( res.status === 200 ) {
+            setIsSuccess(!isSuccess)
+            console.log('成功!', !isSuccess)
+          }
+
+          return res;
+        })();
+      },[item])
     break;
 
     case 'PUT':
