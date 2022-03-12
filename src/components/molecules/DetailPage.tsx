@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ItemType, LocationType } from '../../types';
-import { putItem, deleteItem } from '../../api';
+import { deleteItem } from '../../api';
 import Button from '../atoms/Button';
 import TextField from '../atoms/TextField';
+import { useAsyncData } from '../../hooks/useAsyncData';
 
 
 const DetailPage = () => {
@@ -14,8 +15,13 @@ const DetailPage = () => {
   const { items } = location.state;
   const [item, setItem] = useState<ItemType>();
   const [isEdit, setIsEdit] = useState(false);
-  const [error, setError] = useState(false);
-  const [success, setSuccess] = useState(false);
+
+  // hooks
+  const [updateItem, setUpdateItem] = useState<ItemType>();
+  const { data, isSuccess, isError } = useAsyncData("PUT", updateItem);
+  const [ targetId, setTargetId ] = useState<string | undefined>();
+  const doDeleteItem = useAsyncData('DELETE', updateItem, targetId);
+  
 
   const editTitle = useRef<HTMLInputElement>(null);
   const editContent = useRef<HTMLInputElement>(null);
@@ -34,18 +40,15 @@ const DetailPage = () => {
       content: editContent?.current?.value,
     };
     
-    const res = await putItem(editItem);
-    if (res.status !== 200) return setError(!error);
-    setSuccess(!success);
-    return res;
+    setUpdateItem(editItem);
+    return data;
   }
 
-  const handleDelete = async (id: any) => {
-    const res = await deleteItem(id);
-    if (res.status !== 200) return setError(!error);
-    alert('削除しました');
-    return navigate("/", { replace: true });
+  const handleDelete = async (id: string | undefined) => {
+    setTargetId(id);
+    return doDeleteItem;
   } 
+
 
   const handleCurrent = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -54,16 +57,14 @@ const DetailPage = () => {
 
   useEffect(() => {
     (async() => {
-      setItem(
-        items.find((data:ItemType) => data.id === id )
-      );
+      setItem( items.find((data:ItemType) => data.id === id ));
     })();
   },[]);
 
   return (
     <div>
-      { error && <div>error!: 更新できませんでした</div> }
-      { success && <div>success!: 投稿を更新しました</div> }
+      { isError && <div>error!: 更新できませんでした</div> }
+      { isSuccess && <div>success!: 投稿を更新しました</div> }
       { isEdit ?
         <form onSubmit={(event) => handleSubmit(event)}>
           <TextField 

@@ -2,34 +2,21 @@ import { useState ,useEffect } from 'react'
 import styled from 'styled-components'
 import { ItemType } from '../../types'
 import { Link } from 'react-router-dom';
-import { fetchAPI } from '../../api';
 import Button from '../atoms/Button';
 import Loader from '../atoms/Loader';
+import { useAsyncData } from '../../hooks/useAsyncData';
 
 const MemoItems = () => {
-  const [getData, setGetData] = useState<ItemType[]>();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
-
-  
-  useEffect(() => {
-    setIsLoading(!isLoading);
-    (async() => {
-      return setGetData( await fetchAPI() );
-    })().then(() => {
-      setIsLoading(isLoading);
-    }).catch(err => {
-      setError(err);
-    })
-  }, []);
+  const { data, isLoading, isError } = useAsyncData("GET");
 
   return (
     <StyleListWrapper>
+      { isError && <div>error</div> }
       { isLoading && <Loader /> }
-      { getData?.length === 0 && "メモはありません。" }
-      { getData?.map(({ id, title }: ItemType, index) => {
+      { !isLoading && data?.length === 0 && "メモはありません。" }
+      { data?.map(({ id, title }: ItemType, index) => {
         return (
-          <Link key={index} style={{ textDecoration: 'none' }} to={`/${id}`} state={{ items: getData }}>
+          <Link key={index} style={{ textDecoration: 'none' }} to={`/${id}`} state={{ items: data }}>
             <StyledList>
               <StyledTitle>{title}</StyledTitle>
               <Button 
