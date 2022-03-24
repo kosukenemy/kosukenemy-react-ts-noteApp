@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useLocation, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { ItemType, LocationType } from '../../types';
-import { deleteItem } from '../../api';
 import Button from '../atoms/Button';
 import TextField from '../atoms/TextField';
 import { useAsyncData } from '../../hooks/useAsyncData';
@@ -13,21 +12,21 @@ const DetailPage = () => {
   const navigate = useNavigate();
   const location: LocationType = useLocation();
   const { items } = location.state;
-  const [item, setItem] = useState<ItemType>();
-  const [isEdit, setIsEdit] = useState(false);
+  const [ item, setItem ] = useState<ItemType>();
+  const [ isEdit, setIsEdit ] = useState(false);
 
   // hooks
-  const [updateItem, setUpdateItem] = useState<ItemType>();
-  const { data, isSuccess, isError } = useAsyncData("PUT", updateItem);
-  const [ targetId, setTargetId ] = useState<string | undefined>();
-  const doDeleteItem = useAsyncData('DELETE', updateItem, targetId);
-  
+  const [ updateItem, setUpdateItem ] = useState<ItemType>();
+  let { data, isSuccess, isError, isLoading } = useAsyncData("PUT", updateItem);
+  const [ targetId, setTargetId ] = useState<Pick<ItemType, "id">>();
+  const doDeleteItem = useAsyncData('DELETE', undefined, targetId);
 
   const editTitle = useRef<HTMLInputElement>(null);
   const editContent = useRef<HTMLInputElement>(null);
 
   const handleEdit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
+    
     return setIsEdit(!isEdit)
   };
 
@@ -44,7 +43,7 @@ const DetailPage = () => {
     return data;
   }
 
-  const handleDelete = async (id: string | undefined) => {
+  const handleDelete = async (id: ItemType ) => {
     setTargetId(id);
     return doDeleteItem;
   } 
@@ -56,10 +55,26 @@ const DetailPage = () => {
   };
 
   useEffect(() => {
+    let abortCtrl = new AbortController();
     (async() => {
-      setItem( items.find((data:ItemType) => data.id === id ));
+      setItem( items.find((data: ItemType) => data.id === id ));
     })();
-  },[]);
+    
+    if ( isSuccess ) {
+      (async() => {
+        setIsEdit(!isEdit);
+        setItem( data.find((data: ItemType) => data.id === id ));
+        console.log(data, "data");
+        console.log( isSuccess, isError, isLoading )
+      })();
+    }
+
+    return () => {
+      abortCtrl.abort();
+    }
+  },[data]);
+
+
 
   return (
     <div>
@@ -114,7 +129,7 @@ const DetailPage = () => {
             text={"削除"}
             background={"#C96A8B"}
             color={"#E2E2E2"}
-            onClick={() => handleDelete(item?.id)}
+            onClick={() => handleDelete(item?.id as any)}
             /
           >
           <Button 
