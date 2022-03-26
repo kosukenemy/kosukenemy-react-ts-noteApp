@@ -1,4 +1,3 @@
-import { useState ,useEffect } from 'react'
 import styled from 'styled-components'
 import { ItemType } from '../../types'
 import { Link } from 'react-router-dom';
@@ -20,9 +19,9 @@ const MemoItems = () => {
             <StyledList>
               <StyledTitle>{title}</StyledTitle>
               <Button 
-                text={"詳細"}
-                background={"#5c9ca5"}
-                color={"#fff"}
+                text="詳細"
+                background="#5c9ca5"
+                color="#fff"
                 />
             </StyledList>
           </Link>
@@ -38,8 +37,6 @@ const StyleListWrapper = styled.ul`
   margin: 0 auto;
   padding: 0;
   list-style:none;
-  padding-left:1.5em;
-
 `;
 
 const StyledList = styled.li`

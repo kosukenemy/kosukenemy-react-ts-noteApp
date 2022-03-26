@@ -5,6 +5,9 @@ export const TabHeadConfig = [
   },
   {
     title: "新規作成",
+  },
+  {
+    title: "Trending"
   }
 ];
 

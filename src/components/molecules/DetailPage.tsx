@@ -17,7 +17,7 @@ const DetailPage = () => {
 
   // hooks
   const [ updateItem, setUpdateItem ] = useState<ItemType>();
-  let { data, isSuccess, isError, isLoading } = useAsyncData("PUT", updateItem);
+  let { data, isSuccess, isError } = useAsyncData("PUT", updateItem);
   const [ targetId, setTargetId ] = useState<Pick<ItemType, "id">>();
   const doDeleteItem = useAsyncData('DELETE', undefined, targetId);
 
@@ -64,8 +64,6 @@ const DetailPage = () => {
       (async() => {
         setIsEdit(!isEdit);
         setItem( data.find((data: ItemType) => data.id === id ));
-        console.log(data, "data");
-        console.log( isSuccess, isError, isLoading )
       })();
     }
 
@@ -83,29 +81,29 @@ const DetailPage = () => {
       { isEdit ?
         <form onSubmit={(event) => handleSubmit(event)}>
           <TextField 
-            type={"text"} 
-            name={"title"} 
+            type="text" 
+            name="title" 
             title={editTitle} 
             value={item?.title}
-            displayName={"タイトル"}
+            displayName="タイトル"
           />
           <TextField 
-            type={"textarea"} 
-            name={"title"} 
+            type="textarea" 
+            name="title" 
             title={editContent} 
             value={item?.content}
-            displayName={"本文"}
+            displayName="本文"
           />
           <Button 
-            text={"更新"}
-            background={"#5c9ca5"}
-            color={"#fff"}
+            text="更新"
+            background="#5c9ca5"
+            color="#fff"
             /
           >
           <Button 
-            text={"戻る"}
-            background={"#E2E2E2"}
-            color={"#C96A8B"}
+            text="戻る"
+            background="#E2E2E2"
+            color="#C96A8B"
             onClick={(event) => handleEdit(event)}
             /
           >
@@ -119,23 +117,23 @@ const DetailPage = () => {
             <StyleContent>{item?.content}</StyleContent>
           </StyledContainer>
           <Button 
-            text={"編集"}
-            background={"#5c9ca5"}
-            color={"#fff"}
+            text="編集"
+            background="#5c9ca5"
+            color="#fff"
             onClick={(event) => handleEdit(event)}
             /
           >
           <Button 
-            text={"削除"}
-            background={"#C96A8B"}
-            color={"#E2E2E2"}
+            text="削除"
+            background="#C96A8B"
+            color="#E2E2E2"
             onClick={() => handleDelete(item?.id as any)}
             /
           >
           <Button 
-            text={"戻る"}
-            background={"#E2E2E2"}
-            color={"#C96A8B"}
+            text="戻る"
+            background="#E2E2E2"
+            color="#C96A8B"
             onClick={(event) => handleCurrent(event)}
             /
           >

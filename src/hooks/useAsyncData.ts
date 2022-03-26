@@ -58,8 +58,7 @@ export const useAsyncData = (method: MethodType, item?: ItemType, id?: Pick<Item
               setData( await fetchAPI() );
             })().then(() => {
               setIsSuccess(isSuccess);
-              console.log('完了！')
-            })
+            });
 
           } else setIsError(!isError);
 

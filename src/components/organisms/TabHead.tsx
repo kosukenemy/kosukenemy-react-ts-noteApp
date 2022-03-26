@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { TabHeadConfig } from '../../appConfig'
 import TabContent from '../organisms/TabContent'
 import { useNavigate } from 'react-router-dom';
+
+// config
+import { TabHeadConfig } from '../../appConfig'
+
+// theme
+import { Colors } from '../../config/colors';
 
 const TabHead = () => {
   let [tabIndex, setTabIndex] = useState(0);
@@ -10,8 +15,15 @@ const TabHead = () => {
   
   const handlerTabToggle = ( index:number ) => {
     setTabIndex(index);
-    if (index === 0) return navigate('/')
-    if (index === 1) return navigate('/new')
+
+    switch (index) {
+      case 0: 
+        return navigate('/');
+      case 1: 
+        return navigate('/new');
+      case 2:
+        return navigate('/trending');
+    }
   }
 
   return (
@@ -37,19 +49,21 @@ export default TabHead
 
 const StyledTabHead = styled.div`
   display: flex;
-  margin: 0 auto 20px;
-  border-bottom: solid 1px #cccccc;
+  margin: 0 auto;
+  background-color: ${Colors.theme.header};
+  padding: 0 20px;
 `;
 
 const StyleTabMenu = styled.div`
   cursor: pointer;
   font-size: 18px;
   font-weight: 600;
-  color: #707070;
+  color: ${Colors.theme.text.base};
   padding: 0 2px;
   letter-spacing: 0.03em;
+  padding-bottom: 10px;
 
   &.isValid {
-    border-bottom: solid 3px #5C9CA5;
+    border-bottom: solid 2px ${Colors.theme.text.base};
   }
 `;
