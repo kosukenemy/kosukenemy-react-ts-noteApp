@@ -1,10 +1,9 @@
 import styled from 'styled-components';
-import LoaderImg from '../../../docs/assets/loader.gif'
 
 const Loader = () => {
   return (
     <StyledLoader>
-      <img src={LoaderImg} alt="loader" />
+      ...now loading
     </StyledLoader>
   )
 }
