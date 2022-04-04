@@ -5,7 +5,7 @@ import { fetchAPI, addNewItem, putItem, deleteItem } from '../api';
 
 type MethodType = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
-export const useAsyncData = (method: MethodType, item?: ItemType, id?: any) => {
+export const useAsyncData = (method: MethodType, item?: ItemType, id?: Pick<ItemType, "id">  ) => {
   const navigate = useNavigate();
   const [data, setData] = useState<ItemType[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -42,19 +42,25 @@ export const useAsyncData = (method: MethodType, item?: ItemType, id?: any) => {
 
           return res;
         })();
-      },[item])
+      },[item]);
     break;
 
     case 'PUT':
       useEffect(() => {
         (async () => {
           if ( typeof item === "undefined" ) return false;
-          console.log('PUT')
 
           const res = await putItem(item);
 
           if ( res.status === 200 ) {
-            setIsSuccess(!isSuccess);
+            (async() => {
+              setIsSuccess(!isSuccess);
+              setData( await fetchAPI() );
+            })().then(() => {
+              setIsSuccess(isSuccess);
+              console.log('完了！')
+            })
+
           } else setIsError(!isError);
 
           return res;
@@ -66,10 +72,9 @@ export const useAsyncData = (method: MethodType, item?: ItemType, id?: any) => {
       useEffect(() => {
         (async () => {
           if ( id === undefined ) return false;
-          const res = await deleteItem(id);
+          const res = await deleteItem(id as ItemType);
 
           if ( res.status === 200 ) {
-            console.log("成功!")
             setIsSuccess(!isSuccess);
           } else setIsError(!isError);
 
