@@ -2,8 +2,8 @@
   "name": "react-ts-noteapp",
   "private": true,
   "version": "0.0.0",
-  "homepage": "./",
-  "scripts": {
+  "homepage": "./docs",
+    "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
